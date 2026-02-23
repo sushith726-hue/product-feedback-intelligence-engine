@@ -131,6 +131,15 @@ Strict one-theme-to-one-ticket mapping
 
 Stable re-runnable workflow architecture
 
+## 🔁 End-to-End Flow Summary
+
+1. Customer reviews are ingested from structured sources.
+2. LLM performs classification (Bug / Feature / Usability).
+3. Embeddings are generated and stored in Pinecone.
+4. Similar issues are clustered using semantic retrieval.
+5. Themes are scored transparently via Airtable.
+6. Prioritized issues are automatically converted into Jira tickets.
+
 🔮 Future Improvements
 
 Real-time Slack integration
