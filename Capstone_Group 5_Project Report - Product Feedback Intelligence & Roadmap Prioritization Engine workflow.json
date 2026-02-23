@@ -1,0 +1,1877 @@
+{
+  "name": "Capstone Project - Group 5",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -3840,
+        -496
+      ],
+      "id": "b6cf29eb-44b5-4181-b47a-7ea6334b0212",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1a0W7-a80M144QrQufYWQwIiiRbjdCXVO23KNKm-UqIo",
+          "mode": "list",
+          "cachedResultName": "Kaggle - Public Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1a0W7-a80M144QrQufYWQwIiiRbjdCXVO23KNKm-UqIo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1930207151,
+          "mode": "list",
+          "cachedResultName": "Kaggle - Public Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1a0W7-a80M144QrQufYWQwIiiRbjdCXVO23KNKm-UqIo/edit#gid=1930207151"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -3616,
+        -592
+      ],
+      "id": "73f3b3dd-7ebc-4a83-a9f3-ada427031cdd",
+      "name": "Get rows from Kaggle Reviews",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "KjFjkYVg98KoCLWX",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -3104,
+        -272
+      ],
+      "id": "00a422d3-a2c2-4d5a-a09f-975d2f365143",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "TJuzoHvya2H7USzf",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a strict JSON generator.\n\nYour ONLY task is to output a SINGLE valid JSON object that matches the schema below.\nYou MUST NOT output anything else.\n\nSchema:\n{\n  \"classification\": \"Bug | Feature Request | Usability Issue | Integration Request | Happy User\",\n  \"sentiment\": \"Positive | Neutral | Negative\"\n}\n\nRules:\n- Output must be valid JSON.\n- Do NOT include explanations, comments, or markdown.\n- Do NOT include trailing commas.\n- Do NOT include newlines before or after the JSON.\n- Use ONLY the allowed values exactly as written.\n- Choose exactly ONE value for each field.\n\nClassification guidance:\n- Bug: Broken, crashing, incorrect, or failing behavior.\n- Feature Request: Request for new or expanded functionality.\n- Usability Issue: Confusing, unclear, or difficult UX/UI.\n- Integration Request: Request to connect with another tool or service.\n- Happy User: User has provided positive review and is overall happy with the current functioning of the app. User is not looking for any additional feature.\n\nSentiment guidance:\n- Positive: Praise or satisfaction.\n- Neutral: Mixed, factual, or unclear tone.\n- Negative: Complaints or frustration.\n\nReview:\n{{ $json.review }}\n\nIMPORTANT:\nIf you output anything other than a single valid JSON object that matches the schema exactly, the response is invalid.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -3168,
+        -496
+      ],
+      "id": "dbefb1fc-79a5-4637-82d9-f9065b0aed9d",
+      "name": "Review Classifier"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "12h4imMM1w5qXtq1bctK2xRYlxxT_VohhOLLF2DnEFCU",
+          "mode": "list",
+          "cachedResultName": "synthetic_app_store_reviews",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12h4imMM1w5qXtq1bctK2xRYlxxT_VohhOLLF2DnEFCU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1737266906,
+          "mode": "list",
+          "cachedResultName": "synthetic_app_store_reviews",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12h4imMM1w5qXtq1bctK2xRYlxxT_VohhOLLF2DnEFCU/edit#gid=1737266906"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -3616,
+        -400
+      ],
+      "id": "df95b51b-6879-4fd2-bb01-a7364b3d4d89",
+      "name": "synthetic App reviews",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "KjFjkYVg98KoCLWX",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -2752,
+        -272
+      ],
+      "id": "948d5be1-cf81-4e41-9e3c-d2951844c858",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "TJuzoHvya2H7USzf",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -2016,
+        -272
+      ],
+      "id": "862d326c-6bb4-4c58-b8b5-dabebc667da5",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "TJuzoHvya2H7USzf",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {
+          "maxTokens": -1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -2608,
+        448
+      ],
+      "id": "577d9234-1c34-4d80-9dd4-7b3701c65dea",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "TJuzoHvya2H7USzf",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonMode": "expressionData",
+        "jsonData": "={{ $json.review }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        -1824,
+        -272
+      ],
+      "id": "5126ba9b-d3f0-4968-8825-547e0957f840",
+      "name": "Default Data Loader1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=CRITICAL CONTEXT\nReviews are provided DIRECTLY as input.\nThe dataset may be PARTIAL and NON-EXHAUSTIVE.\nReview order has NO meaning.\nReviews may overlap in wording but describe different failures.\n\nAnalyze ONLY the reviews provided.\nDo NOT infer missing data or assume full coverage.\n\nINPUT\nYou will receive reviews under:\n{{ $('Removing duplicate reviews').item.json.Review }}\n\nGOAL\nIdentify ALL DISTINCT, RECURRING, CONCRETE USER PROBLEMS.\n\nYou MUST:\nProduce MANY small issue clusters\nAvoid umbrella or abstract clusters\nIf the input allows, produce at least 10 distinct clusters. Do NOT invent problems to reach this number.\n\nMANDATORY CLUSTERING RULES\nProblems come BEFORE themes.\nA problem = ONE user action → ONE specific failure.\nSplit aggressively:\nDifferent trigger → different cluster\nDifferent failure → different cluster\nDifferent expectation → different cluster\nNEVER merge issues using themes.\n\nTHEME ASSIGNMENT\n\nFor EACH cluster, assign EXACTLY ONE theme:\n\nPerformance & Stability\nUX/UI Improvements\nFeature Expansion\nIntegration & Compatibility\nReliability & Trust\nOthers\n\nThemes are labels ONLY.\nThemes must NEVER justify merging clusters.\n\nFEW-SHOT EXAMPLES\n### Example — Correct Expectation-Based Split\n\n**INPUT REVIEWS :**\n[\n\"Search button often doesn’t work.\",\n\"App crashes randomly.\",\n\"Maps don’t load properly.\",\n\"Lag during flight search.\",\n\"Cannot sync with my calendar.\",\n\"Sharing options are limited.\",\n\"Please add export to PDF.\",\n\"Wish expenses could auto-categorize.\",\n\"Nice app but needs improvement.\",\n\"Good idea but not polished.\",\n\"Search results inaccurate.\",\n\"Maps don’t always show correct location pins.\"\n]\n\n---\n\n**OUTPUT:**\n\n### Cluster 1 — Performance & Stability\n\n```json\n{\n  \"review_count\": 4,\n  \"dominant_theme\": \"Performance & Stability\",\n  \"summary_heading\": \"Core app experience is broken and unstable\",\n  \"summary_description\": \"Users report broken search functionality, random crashes, lag during flight searches, and failures when loading maps. These issues directly block users from completing basic tasks.\",\n  \"evidence_signals\": {\n    \"average_rating_trend\": \"low\",\n    \"dominant_sentiment\": \"frustrated\",\n    \"dominant_review_category\": \"Core usability bugs\",\n    \"engagement_signal\": \"high repeated negative feedback\"\n  },\n  \"why_this_matters\": {\n    \"user_impact\": \"Users cannot reliably search, navigate, or plan due to instability.\",\n    \"business_impact\": \"Broken fundamentals increase churn and erode trust early in the user lifecycle.\"\n  },\n  \"recommended_actions\": [\n    {\n      \"action_type\": \"Fix\",\n      \"description\": \"Stabilize search, resolve crash causes, reduce latency in flight search, and improve map loading reliability.\"\n    }\n  ],\n  \"platform_insight\": \"\"\n}\n```\n\n---\n\n### Cluster 2 — Integration & Compatibility\n\n```json\n{\n  \"review_count\": 2,\n  \"dominant_theme\": \"Integration & Compatibility\",\n  \"summary_heading\": \"Missing integrations break workflow continuity\",\n  \"summary_description\": \"Users expect seamless integration with external tools such as calendars and sharing platforms. The absence of these integrations forces manual workarounds and context switching.\",\n  \"evidence_signals\": {\n    \"average_rating_trend\": \"neutral to low\",\n    \"dominant_sentiment\": \"disappointed\",\n    \"dominant_review_category\": \"Integration gaps\",\n    \"engagement_signal\": \"explicit dependency on external systems\"\n  },\n  \"why_this_matters\": {\n    \"user_impact\": \"Users must duplicate information across apps, increasing friction.\",\n    \"business_impact\": \"Weak integrations reduce stickiness and daily active usage.\"\n  },\n  \"recommended_actions\": [\n    {\n      \"action_type\": \"Build\",\n      \"description\": \"Introduce and stabilize calendar synchronization and richer sharing integrations.\"\n    }\n  ],\n  \"platform_insight\": \"\"\n}\n```\n\n---\n\n### Cluster 3 — Feature Expansion\n\n```json\n{\n  \"review_count\": 2,\n  \"dominant_theme\": \"Feature Expansion\",\n  \"summary_heading\": \"Users expect advanced planning and reporting features\",\n  \"summary_description\": \"Users request new capabilities such as PDF exports and automated expense categorization, indicating expectations of a more mature and productivity-oriented product.\",\n  \"evidence_signals\": {\n    \"average_rating_trend\": \"neutral\",\n    \"dominant_sentiment\": \"constructive\",\n    \"dominant_review_category\": \"Feature request\",\n    \"engagement_signal\": \"forward-looking feedback\"\n  },\n  \"why_this_matters\": {\n    \"user_impact\": \"Power users feel constrained by the current feature set.\",\n    \"business_impact\": \"Missing advanced features limit premium upgrades and long-term retention.\"\n  },\n  \"recommended_actions\": [\n    {\n      \"action_type\": \"Build\",\n      \"description\": \"Add export and intelligent automation features incrementally, starting with high-demand use cases.\"\n    }\n  ],\n  \"platform_insight\": \"\"\n}\n```\n\n---\n\n### Cluster 4 — Others\n\n```json\n{\n  \"review_count\": 2,\n  \"dominant_theme\": \"Others\",\n  \"summary_heading\": \"General feedback without clear actionability\",\n  \"summary_description\": \"Some reviews express broad approval or dissatisfaction but do not clearly map to bugs, integrations, or feature gaps.\",\n  \"evidence_signals\": {\n    \"average_rating_trend\": \"mixed\",\n    \"dominant_sentiment\": \"neutral\",\n    \"dominant_review_category\": \"General feedback\",\n    \"engagement_signal\": \"low actionable density\"\n  },\n  \"why_this_matters\": {\n    \"user_impact\": \"These comments reflect overall sentiment but lack direction.\",\n    \"business_impact\": \"Useful for tracking brand perception rather than driving immediate roadmap decisions.\"\n  },\n  \"recommended_actions\": [\n    {\n      \"action_type\": \"Monitor\",\n      \"description\": \"Track sentiment trends and re-evaluate if patterns or specifics emerge over time.\"\n    }\n  ],\n  \"platform_insight\": \"\"\n}\n```\n\n### Cluster 5 — Reliability and Trust\n\n```json\n{\n  \"review_count\": 2,\n  \"dominant_theme\": \"Reliability & Trust\",\n  \"summary_heading\": \"Inaccurate results reduce confidence in the app\",\n  \"summary_description\": \"Users report inaccurate search results and incorrect map pin locations. While the app may function, these inaccuracies undermine trust in its outputs.\",\n  \"evidence_signals\": {\n    \"average_rating_trend\": \"low\",\n    \"dominant_sentiment\": \"frustrated\",\n    \"dominant_review_category\": \"Data accuracy issues\",\n    \"engagement_signal\": \"repeated trust-impacting feedback\"\n  },\n  \"why_this_matters\": {\n    \"user_impact\": \"Users hesitate to rely on the app for planning and navigation when results feel unreliable.\",\n    \"business_impact\": \"Perceived inaccuracies weaken long-term trust and retention.\"\n  },\n  \"recommended_actions\": [\n    {\n      \"action_type\": \"Fix\",\n      \"description\": \"Improve accuracy of search ranking logic and map location data validation.\"\n    }\n  ],\n  \"platform_insight\": \"\"\n}\n```\n\nExample 2 — Expectation-Based Split\n\nINPUT REVIEWS:\n[\n\"The app is slow and unresponsive when adding expenses.\",\n\"App fails during payments.\"\n]\n\nOUTPUT:\nTWO clusters:\n\nOne for payment issue\n\nOne for slowness and unresponsive\n\nDifferent expectations → different Jira tickets.\n\nFINAL VALIDATION (MANDATORY)\n\nBefore output:\n\nRe-check every cluster.\n\nIf any cluster contains more than one action or failure, SPLIT IT.\n\nRepeat until no further splits are possible.\n\nOUTPUT FORMAT (STRICT)\n\nReturn ONLY valid JSON.\nNo explanations.\nNo markdown.\nNo commentary.\n\nReturn an ARRAY matching EXACTLY this schema:\n\n[\n{\n\"review_count\": number,\n\"dominant_theme\": \"\",\n\"summary_heading\": \"\",\n\"summary_description\": \"\",\n\"evidence_signals\": {\n\"average_rating_trend\": \"\",\n\"dominant_sentiment\": \"\",\n\"dominant_review_category\": \"\",\n\"engagement_signal\": \"\"\n},\n\"why_this_matters\": {\n\"user_impact\": \"\",\n\"business_impact\": \"\"\n},\n\"recommended_actions\": [\n{\n\"action_type\": \"\",\n\"description\": \"\"\n}\n],\n\"platform_insight\": \"\"\n}\n]",
+        "options": {
+          "systemMessage": "You are a senior Product Insights Analyst for a Trip Planning App.\n\nYour job is to analyze user reviews and extract precise, concrete, repeatable user problems.\n\nYou are evaluated on:\n- Granularity (many small clusters)\n- Precision (one user action + one failure per cluster)\n- Strict rule compliance\n- Schema correctness\n\nYou MUST follow every rule exactly. Failure to comply invalidates the output.\n\nIf the input data allows, you MUST produce at least 10 distinct clusters. \nDo NOT invent issues to reach this number. If fewer than 10 distinct problems exist, return only the valid clusters.\n\nOutput only valid JSON matching the specified schema. \nDo not include explanations, markdown, or commentary."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -2672,
+        224
+      ],
+      "id": "281b04a1-5de0-4733-80d9-1dca9a9fdedd",
+      "name": "Theme Clustering",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {
+          "temperature": 0.2,
+          "topP": 0.7
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -3616,
+        304
+      ],
+      "id": "784779a7-9165-4e3f-a7c1-862445475c67",
+      "name": "OpenAI Chat Model4",
+      "credentials": {
+        "openAiApi": {
+          "id": "TJuzoHvya2H7USzf",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -3408,
+        512
+      ],
+      "id": "4b5bbfd9-6d25-490c-bd4e-ca6339b26926",
+      "name": "Embeddings OpenAI2",
+      "credentials": {
+        "openAiApi": {
+          "id": "TJuzoHvya2H7USzf",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.fields.issuetype.name }}",
+                    "rightValue": "Story",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "889bc19d-8a3f-4860-ac8b-0d3d5f9d882d"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Story"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "93d985e0-6bd6-4332-b349-00f6fb53399c",
+                    "leftValue": "={{ $json.fields.issuetype.name }}",
+                    "rightValue": "Feature",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Feature"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "de5bc72a-edd3-46da-839a-2f42c8858042",
+                    "leftValue": "={{ Object.keys($json).length }}",
+                    "rightValue": 0,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Empty"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -1648,
+        208
+      ],
+      "id": "edad4030-f2eb-4142-907f-e589f0ce2ee3",
+      "name": "Switch",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -3392,
+        -496
+      ],
+      "id": "bc50900b-96ef-4cd3-a7de-fd4d8faea90c",
+      "name": "Merge data from various sources"
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.output }}",
+        "schemaType": "fromJson",
+        "jsonSchemaExample": "{\n  \"classification\": \"Bug | Feature Request | Usability Issue | Integration Request\",\n  \"sentiment\": \"Positive | Neutral | Negative\"\n}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        -2816,
+        -496
+      ],
+      "id": "77ceeb9f-3ccc-40f8-a06b-f4b64c71e1aa",
+      "name": "Extract Classification and Sentiment"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1KV3J7r2SgGDW7frceQ8cQIVp89pnqQyVerbcI74xLWo",
+          "mode": "list",
+          "cachedResultName": "Capstone Classifier",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KV3J7r2SgGDW7frceQ8cQIVp89pnqQyVerbcI74xLWo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Capstone Classifier",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KV3J7r2SgGDW7frceQ8cQIVp89pnqQyVerbcI74xLWo/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "date": "={{ $('Merge data from various sources').item.json.date }}",
+            "platform": "={{ $('Merge data from various sources').item.json.platform }}",
+            "country": "={{ $('Merge data from various sources').item.json.country }}",
+            "review": "={{ $('Merge data from various sources').item.json.review }}",
+            "star": "={{ $('Merge data from various sources').item.json.star }}",
+            "user_id": "={{ $('Merge data from various sources').item.json.user_id }}",
+            "issue_flag": "={{ $('Merge data from various sources').item.json.issue_flag }}",
+            "likes_count": "={{ $('Merge data from various sources').item.json.likes_count }}",
+            "dislike_count": "={{ $('Merge data from various sources').item.json.dislike_count }}",
+            "label": "={{ $json.output.sentiment }}",
+            "source": "={{ $('Merge data from various sources').item.json.Source }}",
+            "Classification": "={{ $json.output.classification }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "source",
+              "displayName": "source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "platform",
+              "displayName": "platform",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "country",
+              "displayName": "country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "review",
+              "displayName": "review",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "star",
+              "displayName": "star",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "user_id",
+              "displayName": "user_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "issue_flag",
+              "displayName": "issue_flag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "likes_count",
+              "displayName": "likes_count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "dislike_count",
+              "displayName": "dislike_count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "label",
+              "displayName": "label",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Classification",
+              "displayName": "Classification",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -2464,
+        -496
+      ],
+      "id": "efefd9a0-6b2c-4e6d-9f0e-29bd14ab26a5",
+      "name": "Update Classification and Sentiment to Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "KjFjkYVg98KoCLWX",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fb5aa419-1e00-4d9f-9fa5-bf96be732fa4",
+              "name": "platform",
+              "value": "={{ $json.platform }}",
+              "type": "string"
+            },
+            {
+              "id": "86926f97-570f-49b5-b741-0223af022800",
+              "name": "country",
+              "value": "={{ $json.country }}",
+              "type": "string"
+            },
+            {
+              "id": "c3207e8d-21ae-418a-8655-51a597dd5ed1",
+              "name": "review",
+              "value": "={{ $json.review }}",
+              "type": "string"
+            },
+            {
+              "id": "890e77bd-6fb4-46b5-a4d7-cb29d0222fae",
+              "name": "star",
+              "value": "={{ $json.star }}",
+              "type": "string"
+            },
+            {
+              "id": "908c5477-163e-40d8-8555-f8663fb339fd",
+              "name": "user_id",
+              "value": "={{ $json.user_id }}",
+              "type": "string"
+            },
+            {
+              "id": "7418076e-f9cf-4e8d-914b-b0b496a1f594",
+              "name": "likes_count",
+              "value": "={{ $json.likes_count }}",
+              "type": "string"
+            },
+            {
+              "id": "71b7f663-45f4-4563-bbe2-988ad7264b95",
+              "name": "dislike_count",
+              "value": "={{ $json.dislike_count }}",
+              "type": "string"
+            },
+            {
+              "id": "377143cd-9da1-4cbf-bb6e-22d5efd38e5b",
+              "name": "label",
+              "value": "={{ $json.label }}",
+              "type": "string"
+            },
+            {
+              "id": "d94d4858-382b-4209-98f2-cdc0b35d6d61",
+              "name": "source",
+              "value": "={{ $json.source }}",
+              "type": "string"
+            },
+            {
+              "id": "13e25bdd-b402-4cf9-85b2-fae4e89700b5",
+              "name": "Classification",
+              "value": "={{ $json.Classification }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2240,
+        -496
+      ],
+      "id": "48dcede1-4c04-4ec9-9d6e-c5d51521c388",
+      "name": "Converting data for Pinecone Compatibility"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "capstonegroup5",
+          "mode": "list",
+          "cachedResultName": "capstonegroup5"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        -2016,
+        -496
+      ],
+      "id": "7e729897-3c74-46cd-8ef3-d5f2c93a066f",
+      "name": "Pinecone Review Embeddings",
+      "credentials": {
+        "pineconeApi": {
+          "id": "QSJtVulJkOrnoXTi",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "You have access to a Pinecone tool.\n\nYour task is to extract ALL vectors from a Pinecone index using ONLY the Pinecone tool.\n\nRules:\n- Do not write JavaScript or code.\n- Do not describe steps.\n- Do not explain anything.\n- Use the Pinecone tool for all data access.\n- Iterate through all namespaces and all vectors.\n- Handle pagination until all vectors are retrieved.\n\nFor every vector, output one JSON object with EXACTLY the following fields:\n{\n  \"Review\":string\n}\n\nConstraints:\n- Do not assume vector IDs in advance.\n- Do not omit vectors.\n- Do not include namespace in the output.\n- Do not include any additional fields.\n- Output must be valid JSON only.\n- Output must be an array of JSON objects.",
+        "options": {
+          "systemMessage": "You are an automation agent running inside n8n.\n\nGenerate JSON suitable for an n8n Code node that extracts all embeddings from a Pinecone index."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -3584,
+        80
+      ],
+      "id": "2b835bcb-d7bd-4d0f-af02-22ef425a7e2a",
+      "name": "Pinecone Embeddings retrieval"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Retrieve all embeddings",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "capstonegroup5",
+          "mode": "list",
+          "cachedResultName": "capstonegroup5"
+        },
+        "topK": 80,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        -3488,
+        304
+      ],
+      "id": "01727ed8-70da-46dc-8586-58e83558aa7f",
+      "name": "Pinecone Review Embeddings1",
+      "credentials": {
+        "pineconeApi": {
+          "id": "QSJtVulJkOrnoXTi",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://vigilant-space-fiesta-q7r655r7qpqjc4rjx-8000.app.github.dev/parse",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"llm_output\": $json.output } }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -3120,
+        80
+      ],
+      "id": "c2e57c28-ef6d-4dc6-8eae-93b9309b9cf3",
+      "name": "FastAPI - Python based Extraction"
+    },
+    {
+      "parameters": {
+        "compare": "selectedFields",
+        "fieldsToCompare": "Review",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        -2896,
+        80
+      ],
+      "id": "41f77f5f-e2be-40b3-8423-ce422ae195f0",
+      "name": "Removing duplicate reviews"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "apph1aBkYBiOm1sND",
+          "mode": "list",
+          "cachedResultName": "Test-Embedding Extraction Output",
+          "cachedResultUrl": "https://airtable.com/apph1aBkYBiOm1sND"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl7JDRljAB3mixNR",
+          "mode": "list",
+          "cachedResultName": "Reviews",
+          "cachedResultUrl": "https://airtable.com/apph1aBkYBiOm1sND/tbl7JDRljAB3mixNR"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Review Text": "={{ $json.Review }}"
+          },
+          "matchingColumns": [
+            "Review Text"
+          ],
+          "schema": [
+            {
+              "id": "Review Text",
+              "displayName": "Review Text",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -2608,
+        -80
+      ],
+      "id": "24059caf-c48e-4f8e-bf8c-55ad98cd27fa",
+      "name": "Keeping Retrieved Embeddings records",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "ZwIaQGBcmv5xDwVD",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://vigilant-space-fiesta-q7r655r7qpqjc4rjx-8000.app.github.dev/parse",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"llm_output\": $json.output } }}",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -2320,
+        224
+      ],
+      "id": "20d5e4db-1428-4514-914d-215fc3758145",
+      "name": "FastAPI - Python based Extraction for LLM Output"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appJUhi95j0tiSw8m",
+          "mode": "list",
+          "cachedResultName": "Capstone_Group5",
+          "cachedResultUrl": "https://airtable.com/appJUhi95j0tiSw8m"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl7JDRljAB3mixNR",
+          "mode": "list",
+          "cachedResultName": "Product Feedback",
+          "cachedResultUrl": "https://airtable.com/appJUhi95j0tiSw8m/tbl7JDRljAB3mixNR"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Theme Name": "={{ $json.dominant_theme }}",
+            "Description": "={{ $json.summary_description }}",
+            "User Impact": "={{ $json.why_this_matters.user_impact }}",
+            "Review Counts": "={{ $json.review_count }}",
+            "Summary Title": "={{ $json.summary_heading }}",
+            "Business Impact": "={{ $json.why_this_matters.business_impact }}",
+            "Action Type": "={{ $json.recommended_actions[0].action_type }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Theme Name",
+              "displayName": "Theme Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Summary Title",
+              "displayName": "Summary Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "User Impact",
+              "displayName": "User Impact",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Business Impact",
+              "displayName": "Business Impact",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Action Type",
+              "displayName": "Action Type",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Review Counts",
+              "displayName": "Review Counts",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Impact Score",
+              "displayName": "Impact Score",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Todo",
+                  "value": "Todo"
+                },
+                {
+                  "name": "In progress",
+                  "value": "In progress"
+                },
+                {
+                  "name": "Done",
+                  "value": "Done"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Last Modified Time",
+              "displayName": "Last Modified Time",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -2096,
+        224
+      ],
+      "id": "d83703b3-6676-4898-b493-89e36fb98dba",
+      "name": "Creating actionable items in Airtable",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "ZwIaQGBcmv5xDwVD",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.jira",
+      "typeVersion": 1,
+      "position": [
+        -1872,
+        224
+      ],
+      "id": "b85409fb-bc3c-4df5-b29a-4bd7de4281c7",
+      "name": "Extracting existings records from Jira",
+      "executeOnce": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "ViRfzo3E3L7GdJDu",
+          "name": "Jira SW Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appJUhi95j0tiSw8m",
+          "mode": "list",
+          "cachedResultName": "Capstone_Group5",
+          "cachedResultUrl": "https://airtable.com/appJUhi95j0tiSw8m"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl7JDRljAB3mixNR",
+          "mode": "list",
+          "cachedResultName": "Product Feedback",
+          "cachedResultUrl": "https://airtable.com/appJUhi95j0tiSw8m/tbl7JDRljAB3mixNR"
+        },
+        "filterByFormula": "(OR({Status} = \"Todo\", {Status} = \"Inprogress\"))",
+        "returnAll": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -1424,
+        32
+      ],
+      "id": "a5149b4f-1b9f-4dd8-afc8-06371195691a",
+      "name": "Searching records with Status for User Story creation",
+      "executeOnce": true,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "ZwIaQGBcmv5xDwVD",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appJUhi95j0tiSw8m",
+          "mode": "list",
+          "cachedResultName": "Capstone_Group5",
+          "cachedResultUrl": "https://airtable.com/appJUhi95j0tiSw8m"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl7JDRljAB3mixNR",
+          "mode": "list",
+          "cachedResultName": "Product Feedback",
+          "cachedResultUrl": "https://airtable.com/appJUhi95j0tiSw8m/tbl7JDRljAB3mixNR"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -1424,
+        416
+      ],
+      "id": "03af3ee6-b937-4f40-811b-21409777515d",
+      "name": "Search records for Feature creation",
+      "executeOnce": true,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "ZwIaQGBcmv5xDwVD",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appJUhi95j0tiSw8m",
+          "mode": "list",
+          "cachedResultName": "Capstone_Group5",
+          "cachedResultUrl": "https://airtable.com/appJUhi95j0tiSw8m"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl7JDRljAB3mixNR",
+          "mode": "list",
+          "cachedResultName": "Product Feedback",
+          "cachedResultUrl": "https://airtable.com/appJUhi95j0tiSw8m/tbl7JDRljAB3mixNR"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -1424,
+        608
+      ],
+      "id": "ab809d61-812e-4b02-a576-f38eac3c3b68",
+      "name": "Searching records for Feature and User story creation",
+      "executeOnce": false,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "ZwIaQGBcmv5xDwVD",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "['Theme Name']",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -1200,
+        416
+      ],
+      "id": "64742e92-6792-4849-8154-8bbb56a29c53",
+      "name": "Specific Column extraction - Theme"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "fields.summary",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -1200,
+        -176
+      ],
+      "id": "79acfc57-0e1b-49b6-8356-fd9f05eb4c44",
+      "name": "Jira Summary Field Extraction"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "['Summary Title']",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -1200,
+        32
+      ],
+      "id": "7cff0658-d02d-466d-805b-121014437a40",
+      "name": "Getting Summary heading"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "fields.summary",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -1200,
+        224
+      ],
+      "id": "0107ffb0-0989-400a-ab2b-0c555767f142",
+      "name": "Getting Jira Summary Field"
+    },
+    {
+      "parameters": {
+        "project": {
+          "__rl": true,
+          "value": "10000",
+          "mode": "list",
+          "cachedResultName": "Capstone Group 5"
+        },
+        "issueType": {
+          "__rl": true,
+          "value": "10004",
+          "mode": "list",
+          "cachedResultName": "Story"
+        },
+        "summary": "={{ $('Searching records for Feature and User story creation').item.json['Summary Title'] }}",
+        "additionalFields": {
+          "description": "={{ $('Searching records for Feature and User story creation').item.json.Description }}"
+        }
+      },
+      "type": "n8n-nodes-base.jira",
+      "typeVersion": 1,
+      "position": [
+        -976,
+        608
+      ],
+      "id": "3ea33046-7deb-42c6-b50e-400fb862d345",
+      "name": "Create user story from Empty Node",
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "ViRfzo3E3L7GdJDu",
+          "name": "Jira SW Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "project": {
+          "__rl": true,
+          "value": "10000",
+          "mode": "list",
+          "cachedResultName": "Capstone Group 5"
+        },
+        "issueType": {
+          "__rl": true,
+          "value": "10005",
+          "mode": "list",
+          "cachedResultName": "Feature"
+        },
+        "summary": "={{ $json['Theme Name'] }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.jira",
+      "typeVersion": 1,
+      "position": [
+        -1200,
+        608
+      ],
+      "id": "2453810f-4de4-4fc4-bc2a-518c67fed86b",
+      "name": "Create Feature from Empty Node",
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "ViRfzo3E3L7GdJDu",
+          "name": "Jira SW Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "advanced": true,
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "fields.summary",
+              "field2": "['[\\'Theme Name\\']']"
+            }
+          ]
+        },
+        "joinMode": "keepNonMatches",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -976,
+        416
+      ],
+      "id": "1ed27ba2-7cdd-4852-a9e3-3acebf47e97c",
+      "name": "Merging Data for Feature creation",
+      "executeOnce": false,
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "advanced": true,
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "fields.summary",
+              "field2": "['[\\'Summary Title\\']']"
+            }
+          ]
+        },
+        "joinMode": "keepNonMatches",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -976,
+        32
+      ],
+      "id": "d1b71b55-a170-41d7-aead-082ed0f77853",
+      "name": "Merging data for User Story creation"
+    },
+    {
+      "parameters": {
+        "project": {
+          "__rl": true,
+          "value": "10000",
+          "mode": "list",
+          "cachedResultName": "Capstone Group 5"
+        },
+        "issueType": {
+          "__rl": true,
+          "value": "10005",
+          "mode": "list",
+          "cachedResultName": "Feature"
+        },
+        "summary": "={{ $json['[\\'Theme Name\\']'] }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.jira",
+      "typeVersion": 1,
+      "position": [
+        -752,
+        416
+      ],
+      "id": "af339d84-2e6b-45fb-befe-8567b4d3f4f8",
+      "name": "Create Feature from Feature node",
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "ViRfzo3E3L7GdJDu",
+          "name": "Jira SW Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "8d8724ef-aa32-4184-a474-d11ea0a88e59",
+              "leftValue": "={{ $json._source }}",
+              "rightValue": "input2",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -752,
+        32
+      ],
+      "id": "82cf60fc-2152-4bf6-9578-94e9f93fc144",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "project": {
+          "__rl": true,
+          "value": "10000",
+          "mode": "list",
+          "cachedResultName": "Capstone Group 5"
+        },
+        "issueType": {
+          "__rl": true,
+          "value": "10004",
+          "mode": "list",
+          "cachedResultName": "Story"
+        },
+        "summary": "={{ $('Searching records with Status for User Story creation').item.json['Summary Title'] }}",
+        "additionalFields": {
+          "description": "={{ $('Searching records with Status for User Story creation').item.json.Description }}"
+        }
+      },
+      "type": "n8n-nodes-base.jira",
+      "typeVersion": 1,
+      "position": [
+        -528,
+        32
+      ],
+      "id": "7f88f633-13a4-459b-a496-e0c164d6c513",
+      "name": "Create User Story from Story node",
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "ViRfzo3E3L7GdJDu",
+          "name": "Jira SW Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -3840,
+        80
+      ],
+      "id": "52e5e6da-8854-41d7-ad61-bd88368506a8",
+      "name": "Monthly Trigger"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get rows from Kaggle Reviews",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "synthetic App reviews",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Review Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get rows from Kaggle Reviews": {
+      "main": [
+        [
+          {
+            "node": "Merge data from various sources",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "synthetic App reviews": {
+      "main": [
+        [
+          {
+            "node": "Merge data from various sources",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Review Classifier": {
+      "main": [
+        [
+          {
+            "node": "Extract Classification and Sentiment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Extract Classification and Sentiment",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Review Embeddings",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Theme Clustering",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader1": {
+      "ai_document": [
+        [
+          {
+            "node": "Pinecone Review Embeddings",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Theme Clustering": {
+      "main": [
+        [
+          {
+            "node": "FastAPI - Python based Extraction for LLM Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Pinecone Embeddings retrieval",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI2": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Review Embeddings1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Jira Summary Field Extraction",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Searching records with Status for User Story creation",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Getting Jira Summary Field",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Search records for Feature creation",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Searching records for Feature and User story creation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge data from various sources": {
+      "main": [
+        [
+          {
+            "node": "Review Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Classification and Sentiment": {
+      "main": [
+        [
+          {
+            "node": "Update Classification and Sentiment to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Classification and Sentiment to Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Converting data for Pinecone Compatibility",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Converting data for Pinecone Compatibility": {
+      "main": [
+        [
+          {
+            "node": "Pinecone Review Embeddings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Embeddings retrieval": {
+      "main": [
+        [
+          {
+            "node": "FastAPI - Python based Extraction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Review Embeddings1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Pinecone Embeddings retrieval",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FastAPI - Python based Extraction": {
+      "main": [
+        [
+          {
+            "node": "Removing duplicate reviews",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Removing duplicate reviews": {
+      "main": [
+        [
+          {
+            "node": "Theme Clustering",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Keeping Retrieved Embeddings records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Keeping Retrieved Embeddings records": {
+      "main": [
+        []
+      ]
+    },
+    "FastAPI - Python based Extraction for LLM Output": {
+      "main": [
+        [
+          {
+            "node": "Creating actionable items in Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Creating actionable items in Airtable": {
+      "main": [
+        [
+          {
+            "node": "Extracting existings records from Jira",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extracting existings records from Jira": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Searching records with Status for User Story creation": {
+      "main": [
+        [
+          {
+            "node": "Getting Summary heading",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search records for Feature creation": {
+      "main": [
+        [
+          {
+            "node": "Specific Column extraction - Theme",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Searching records for Feature and User story creation": {
+      "main": [
+        [
+          {
+            "node": "Create Feature from Empty Node",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Specific Column extraction - Theme": {
+      "main": [
+        [
+          {
+            "node": "Merging Data for Feature creation",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Jira Summary Field Extraction": {
+      "main": [
+        [
+          {
+            "node": "Merging data for User Story creation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Getting Summary heading": {
+      "main": [
+        [
+          {
+            "node": "Merging data for User Story creation",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Getting Jira Summary Field": {
+      "main": [
+        [
+          {
+            "node": "Merging Data for Feature creation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Feature from Empty Node": {
+      "main": [
+        [
+          {
+            "node": "Create user story from Empty Node",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merging Data for Feature creation": {
+      "main": [
+        [
+          {
+            "node": "Create Feature from Feature node",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merging data for User Story creation": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Feature from Feature node": {
+      "main": [
+        []
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Create User Story from Story node",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Monthly Trigger": {
+      "main": [
+        [
+          {
+            "node": "Pinecone Embeddings retrieval",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "4dfd53b0-3e79-4f2c-82f8-6779d6b86e21",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cdd051339bcb3b222c771eb2f6e0ba2d423ecdfe420bd08bd8a2d98d3c80bbfe"
+  },
+  "id": "YHtmqXXsHAeFnwfpddVsR",
+  "tags": []
+}
