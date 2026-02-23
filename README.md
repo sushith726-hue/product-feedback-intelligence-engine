@@ -141,3 +141,14 @@ Executive analytics dashboard
 
 Continuous learning loop[Capstone_Group 5_Project Report - Product Feedback Intelligence & Roadmap Prioritization Engine.docx](https://github.com/user-attachments/files/25482536/Capstone_Group.5_Project.Report.-.Product.Feedback.Intelligence.Roadmap.Prioritization.Engine.docx)
 [Capstone_Group 5_Project Report - Product Feedback Intelligence & Roadmap Prioritization Engine (2).pptx](https://github.com/user-attachments/files/25482554/Capstone_Group.5_Project.Report.-.Product.Feedback.Intelligence.Roadmap.Prioritization.Engine.2.pptx)
+
+
+## 📂 Sample Data
+
+Example input review:
+`samples/sample-input.json`
+
+Example clustered output:
+`samples/sample-cluster-output.json`
+
+These examples demonstrate how raw unstructured feedback is transformed into structured, prioritized, and execution-ready outputs using the LLM + RAG pipeline.
