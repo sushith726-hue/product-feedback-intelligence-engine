@@ -1,0 +1,8 @@
+{
+  "classification": "Bug",
+  "theme": "Image Upload Crash",
+  "priority_score": 8.7,
+  "cluster_size": 24,
+  "jira_ticket_created": true,
+  "ticket_id": "PROD-142"
+}
