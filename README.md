@@ -17,6 +17,7 @@ Prioritizes transparently
 Creates execution-ready Jira tickets
 
 🧠 Architecture Overview
+![System Architecture](system-architecture.png)
 
 This system follows a 5-layer production-style architecture:
 
